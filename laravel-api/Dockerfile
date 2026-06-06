@@ -18,7 +18,9 @@ RUN docker-php-ext-install pdo pdo_pgsql zip \
 
 # Copie uniquement ce dont Composer a besoin
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
 WORKDIR /var/www
+
 COPY composer.json composer.lock ./
 
 # ─── Stage 2 : production ─────────────────────────────────────────────────────
@@ -42,6 +44,10 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts
 
 # Copie le code de l'application
 COPY . .
+
+RUN deluser www-data \
+ && addgroup -g 1000 www-data \
+ && adduser -u 1000 -D -S -G www-data www-data
 
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
