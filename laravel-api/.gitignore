@@ -20,6 +20,8 @@
 /public/storage
 /storage/*.key
 /storage/pail
+/storage/logs/*
+/bootstrap/cache/*.php
 /vendor
 _ide_helper.php
 Homestead.json

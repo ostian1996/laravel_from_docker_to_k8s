@@ -1,0 +1,9 @@
+services:
+  laravel:
+    volumes:
+      - ./laravel-api:/var/www    # ← écrase le volume nommé en dev
+    entrypoint: ["sh", "-c", "chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache && php-fpm"] #   Remet correctement les permissions avant que php-fpm démarre
+  nginx:
+    volumes:
+      - ./laravel-api:/var/www         # ← idem pour Nginx en dev
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
