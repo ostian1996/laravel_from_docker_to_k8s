@@ -6,7 +6,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Docker to K8s - Login</title>
-  @vite(['/resources/vendors/mdi/css/materialdesignicons.min.css', '/resources/vendors/css/vendor.bundle.base.css', '/resources/css/style.css', ])
+  <link rel="stylesheet" href="{{ asset('vendors/mdi/css/materialdesignicons.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('vendors/css/vendor.bundle.base.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
   <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" />
 </head>
 
@@ -18,7 +21,7 @@
           <div class="col-lg-4 mx-auto">
             <div class="auth-form-light text-left py-5 px-4 px-sm-5">
               <div class="brand-logo">
-                <img src="{{ asset('/images/logo-dark.svg') }}" alt="logo">
+                <img src="{{ asset('images/logo-dark.svg') }}" alt="logo">
               </div>
               <h4>Hello! let's get started</h4>
               <h6 class="font-weight-light">Sign in to continue.</h6>
@@ -81,8 +84,12 @@
   </div>
   <!-- container-scroller -->
   <!-- base:js -->
-  @vite(['/resources/vendors/js/vendor.bundle.base.js', '/resources/js/jquery.cookie.js', '/resources/js/off-canvas.js', 
-            '/resources/js/hoverable-collapse.js', '/resources/js/template.js'])
+  <script src="{{ asset('vendors/js/vendor.bundle.base.js') }}"></script>
+  <script src="{{ asset('js/jquery.cookie.js') }}"></script>
+  <script src="{{ asset('js/off-canvas.js') }}"></script>
+  <script src="{{ asset('js/hoverable-collapse.js') }}"></script>
+  <script src="{{ asset('js/template.js') }}"></script>
+
 </body>
 
 </html>
