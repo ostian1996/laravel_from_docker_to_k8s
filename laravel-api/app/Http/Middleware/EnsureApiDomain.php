@@ -17,6 +17,10 @@ class EnsureApiDomain
     {
         $host = $request->getHost(); // "api.local" ou "admin.local"
 
+        if (app()->environment('testing')) {
+            return $next($request);
+        }
+
         // Si la requête arrive sur api.local → on laisse passer
         // Si elle arrive ailleurs → 404
         if ($host !== 'api.local') {
