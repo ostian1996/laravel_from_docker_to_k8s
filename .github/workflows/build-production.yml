@@ -113,3 +113,61 @@ jobs:
           else
             echo "is_tag=false" >> $GITHUB_OUTPUT
           fi
+      - name: Build image (push sur main)
+        if: github.ref == 'refs/heads/main'
+        run: |
+          docker build \
+            --target production \
+            --tag ${{ env.GHCR_IMAGE }}:latest \
+            --tag ${{ env.GHCR_IMAGE }}:sha-${{ github.sha }} \
+            --tag ${{ env.DOCKERHUB_IMAGE }}:latest \
+            --tag ${{ env.DOCKERHUB_IMAGE }}:sha-${{ github.sha }} \
+            ./laravel-api
+
+      - name: Build image (tag Git)
+        if: steps.version.outputs.is_tag == 'true'
+        run: |
+          docker build \
+            --target production \
+            --tag ${{ env.GHCR_IMAGE }}:${{ steps.version.outputs.version }} \
+            --tag ${{ env.GHCR_IMAGE }}:${{ steps.version.outputs.minor }} \
+            --tag ${{ env.GHCR_IMAGE }}:${{ steps.version.outputs.major }} \
+            --tag ${{ env.GHCR_IMAGE }}:latest \
+            --tag ${{ env.DOCKERHUB_IMAGE }}:${{ steps.version.outputs.version }} \
+            --tag ${{ env.DOCKERHUB_IMAGE }}:${{ steps.version.outputs.minor }} \
+            --tag ${{ env.DOCKERHUB_IMAGE }}:${{ steps.version.outputs.major }} \
+            --tag ${{ env.DOCKERHUB_IMAGE }}:latest \
+            ./laravel-api
+      - name: Push to GHCR (main)
+        if: github.ref == 'refs/heads/main'
+        run: |
+          docker push ${{ env.GHCR_IMAGE }}:latest
+          docker push ${{ env.GHCR_IMAGE }}:sha-${{ github.sha }}
+
+      - name: Push to Docker Hub (main)
+        if: github.ref == 'refs/heads/main'
+        run: |
+          docker push ${{ env.DOCKERHUB_IMAGE }}:latest
+          docker push ${{ env.DOCKERHUB_IMAGE }}:sha-${{ github.sha }}
+
+      - name: Push to GHCR (tag)
+        if: steps.version.outputs.is_tag == 'true'
+        run: |
+          docker push ${{ env.GHCR_IMAGE }}:${{ steps.version.outputs.version }}
+          docker push ${{ env.GHCR_IMAGE }}:${{ steps.version.outputs.minor }}
+          docker push ${{ env.GHCR_IMAGE }}:${{ steps.version.outputs.major }}
+          docker push ${{ env.GHCR_IMAGE }}:latest
+
+      - name: Push to Docker Hub (tag)
+        if: steps.version.outputs.is_tag == 'true'
+        run: |
+          docker push ${{ env.DOCKERHUB_IMAGE }}:${{ steps.version.outputs.version }}
+          docker push ${{ env.DOCKERHUB_IMAGE }}:${{ steps.version.outputs.minor }}
+          docker push ${{ env.DOCKERHUB_IMAGE }}:${{ steps.version.outputs.major }}
+          docker push ${{ env.DOCKERHUB_IMAGE }}:latest
+
+      - name: Résumé
+        run: |
+          echo "## Images publiées 🐳" >> $GITHUB_STEP_SUMMARY
+          echo "- Ref: \`${{ github.ref }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- SHA: \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
