@@ -111,7 +111,9 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Cache layers Docker
+        id: cache
         uses: actions/cache@v4
+        continue-on-error: true
         with:
           path: /tmp/.buildx-cache
           key: buildx-staging-${{ runner.os }}-${{ github.sha }}
@@ -127,7 +129,7 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-from: ${{ steps.cache.outputs.cache-hit == 'true' && 'type=local,src=/tmp/.buildx-cache' || '' }}
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
 
       - name: Rotation du cache Buildx
