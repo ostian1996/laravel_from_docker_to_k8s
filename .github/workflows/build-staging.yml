@@ -105,6 +105,7 @@ jobs:
             --tag ${{ env.GHCR_IMAGE }}:develop-${{ github.sha }} \
             --tag ${{ env.DOCKERHUB_IMAGE }}:develop \
             --tag ${{ env.DOCKERHUB_IMAGE }}:develop-${{ github.sha }} \
+            -f ./laravel-api/docker/Dockerfile.dev \
             ./laravel-api
 
       - name: Push to GHCR
