@@ -1,0 +1,10 @@
+# From_docker_to_k8s/.gitignore
+
+# Variables d'environnement — JAMAIS commités
+.env
+.env.prod
+.env.staging
+.env.local
+
+# Mais les templates sont commités
+!.env.example

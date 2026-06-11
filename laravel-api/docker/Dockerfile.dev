@@ -1,0 +1,31 @@
+FROM php:8.3-fpm-alpine
+
+# 1. Packages système 
+RUN apk add --no-cache \
+    postgresql-dev \
+    libzip-dev \
+    zip unzip autoconf gcc g++ make linux-headers
+
+# 2. Extensions PHP
+RUN docker-php-ext-install pdo pdo_pgsql zip \
+ && pecl install redis \
+ && docker-php-ext-enable redis
+
+# 3. Utilisateur 
+RUN deluser www-data \
+ && addgroup -g 1000 www-data \
+ && adduser -u 1000 -D -S -G www-data www-data
+
+# 4. Composer 
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# 5. Fichiers de config
+COPY docker/php/php-dev.ini /usr/local/etc/php/conf.d/app-dev.ini
+COPY docker/entrypoint.dev.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+WORKDIR /var/www
+
+EXPOSE 9000
+ENTRYPOINT ["entrypoint.sh"]
+CMD ["php-fpm"]
