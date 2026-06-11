@@ -137,6 +137,7 @@ jobs:
             --tag ${{ env.DOCKERHUB_IMAGE }}:${{ steps.version.outputs.minor }} \
             --tag ${{ env.DOCKERHUB_IMAGE }}:${{ steps.version.outputs.major }} \
             --tag ${{ env.DOCKERHUB_IMAGE }}:latest \
+            -f ./laravel-api/docker/Dockerfile.prod \
             ./laravel-api
       - name: Push to GHCR (main)
         if: github.ref == 'refs/heads/main'
