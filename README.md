@@ -272,7 +272,7 @@ L'ensemble des services communiquent via un réseau Docker privé.
               ┌──────────────┴──────────────┐
               │                             │
               ▼                             ▼
-      admin.local                    api.local
+      admin.local                        api.local
               │                             │
               └──────────────┬──────────────┘
                              ▼

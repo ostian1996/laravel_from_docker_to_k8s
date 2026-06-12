@@ -10,15 +10,15 @@
   <div class="col-md-6 grid-margin stretch-card mx-auto">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">Horizontal Form</h4>
+        <h4 class="card-title">Utilisateur</h4>
         <p class="card-description">
-          Horizontal form layout
+          Ajouter un nouvel utilisateur
         </p>
-        <form class="forms-sample">
+        <form class="forms-sample" method="POST" action="{{ route('users.store') }}">
           <div class="form-group row">
-            <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Email</label>
+            <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Nom et Prénoms</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control" id="exampleInputUsername2" placeholder="Username">
+              <input type="text" class="form-control" id="exampleInputUsername2" placeholder="Jean Doe">
             </div>
           </div>
           <div class="form-group row">
@@ -45,14 +45,8 @@
               <input type="password" class="form-control" id="exampleInputConfirmPassword2" placeholder="Password">
             </div>
           </div>
-          <div class="form-check form-check-flat form-check-primary">
-            <label class="form-check-label">
-              <input type="checkbox" class="form-check-input">
-              Remember me
-            </label>
-          </div>
-          <button type="submit" class="btn btn-primary me-2">Submit</button>
-          <button class="btn btn-light">Cancel</button>
+          <button type="submit" class="btn btn-primary me-2">Ajouter</button>
+          <a class="btn btn-light" href="{{ route('users.index') }}">Annuler</a>
         </form>
       </div>
     </div>

@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="{{ asset('vendors/mdi/css/materialdesignicons.min.css') }}">
   <link rel="stylesheet" href="{{ asset('vendors/css/vendor.bundle.base.css') }}">
   <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+   <link rel="stylesheet" href="{!! asset('css/dataTables.bootstrap5.min.css') !!}">
   
   @stack('css')
   <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" />
@@ -38,6 +39,15 @@
   <script src="{{ asset('js/jquery.cookie.js') }}" type="text/javascript"></script>
   <script src="{{ asset('js/dashboard.js') }}"></script>
   
+  <!-- Include jQuery & DataTables JS Scripts -->
+  <script src="{!! asset('js/jquery.min.js') !!}"></script>
+  <script src="{!! asset('js/jquery.dataTables.min.js') !!}"></script>
+
+    <!-- Select2 -->
+  <script src="{!! asset('js/select2.full.min.js') !!}"></script>
+  <script src="{!! asset('js/select2.min.js') !!}"></script>
+  <script src="{!! asset('js/i18n/fr.js') !!}"></script>
+
   @stack('js')
 </body>
 
