@@ -100,7 +100,6 @@ jobs:
       - name: Build image
         run: |
           docker build \
-            --target production \
             --tag ${{ env.GHCR_IMAGE }}:develop \
             --tag ${{ env.GHCR_IMAGE }}:develop-${{ github.sha }} \
             --tag ${{ env.DOCKERHUB_IMAGE }}:develop \
