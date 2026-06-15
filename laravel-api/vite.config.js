@@ -13,6 +13,7 @@ export default defineConfig({
         cors: true,
         watch: {
             usePolling: true,
+            interval: 300,
         },
     },
     plugins: [

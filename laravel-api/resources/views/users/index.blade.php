@@ -13,7 +13,7 @@
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div>
                         <h4 class="card-title mb-0">Utilisateurs</h4>
-                        <p class="card-description mb-0">Découvrez la liste des utilisateurs</p>
+                        <p class="card-description mb-0">Découvrez la liste des Utilisateurs</p>
                     </div>
                     <div>
                         <a href="{{ route('users.create') }}" type="button" class="btn btn-primary btn-icon-text">
@@ -23,108 +23,18 @@
                     </div>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-striped">
+                    <table id="table" class="table table-striped">
                         <thead>
                             <tr>
-                                <th>User</th>
-                                <th>First name</th>
-                                <th>Progress</th>
-                                <th>Amount</th>
-                                <th>Deadline</th>
+                                <th>N°</th>
+                                <th>Nom et Prénoms</th>
+                                <th>Email</th>
+                                <th>Rôle</th>
+                                <th>Status</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="py-1">
-                                    <img src="../../images/faces/face1.jpg" alt="image" />
-                                </td>
-                                <td>Herman Beck</td>
-                                <td>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </td>
-                                <td>$ 77.99</td>
-                                <td>May 15, 2015</td>
-                            </tr>
-                            <tr>
-                                <td class="py-1">
-                                    <img src="../../images/faces/face2.jpg" alt="image" />
-                                </td>
-                                <td>Messsy Adam</td>
-                                <td>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </td>
-                                <td>$245.30</td>
-                                <td>July 1, 2015</td>
-                            </tr>
-                            <tr>
-                                <td class="py-1">
-                                    <img src="../../images/faces/face3.jpg" alt="image" />
-                                </td>
-                                <td>John Richards</td>
-                                <td>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </td>
-                                <td>$138.00</td>
-                                <td>Apr 12, 2015</td>
-                            </tr>
-                            <tr>
-                                <td class="py-1">
-                                    <img src="../../images/faces/face4.jpg" alt="image" />
-                                </td>
-                                <td>Peter Meggik</td>
-                                <td>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </td>
-                                <td>$ 77.99</td>
-                                <td>May 15, 2015</td>
-                            </tr>
-                            <tr>
-                                <td class="py-1">
-                                    <img src="../../images/faces/face5.jpg" alt="image" />
-                                </td>
-                                <td>Edward</td>
-                                <td>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 35%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </td>
-                                <td>$ 160.25</td>
-                                <td>May 03, 2015</td>
-                            </tr>
-                            <tr>
-                                <td class="py-1">
-                                    <img src="../../images/faces/face6.jpg" alt="image" />
-                                </td>
-                                <td>John Doe</td>
-                                <td>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-info" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </td>
-                                <td>$ 123.21</td>
-                                <td>April 05, 2015</td>
-                            </tr>
-                            <tr>
-                                <td class="py-1">
-                                    <img src="../../images/faces/face7.jpg" alt="image" />
-                                </td>
-                                <td>Henry Tom</td>
-                                <td>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </td>
-                                <td>$ 150.00</td>
-                                <td>June 16, 2015</td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -134,5 +44,32 @@
 @endsection
 
 @push('js')
-  <script></script>
+
+<script type="text/javascript">
+  $(function () {
+    $('#table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{ route('users.index') }}",
+        columns: [
+            {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
+            {
+                data: 'name', 
+                name: 'name'
+            },{
+                data: 'email', 
+                name: 'email'
+            },{
+                data: 'role', 
+                name: 'role'
+            },{
+                data: 'status', 
+                name: 'status'
+            },
+
+            {data: 'action', name: 'action', orderable: false, searchable: false},
+        ]
+    });
+  });
+</script>
 @endpush
