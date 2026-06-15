@@ -51,7 +51,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::whereNotIn('name' , ['Entreprise' , 'Commentateur'])->get();
+        $roles = Role::all();
 
         return view('users.create' , compact('roles'));
     }
@@ -62,28 +62,19 @@ class UserController extends Controller
 public function store(StoreUserRequest $request)
     {
         $data = $request->validated();
+
         try {
 
             DB::beginTransaction();
 
             $data['password'] = bcrypt($data['password']);
 
-            $data['first_connexion'] = true ;
 
             $role = Role::find($data['role']);
 
             $user = User::create($data);
 
             $user->assignRole($role);
-
-            $email_data = [
-                'email' => $user->email,
-                'password'  => $request->password,
-                'fullname'  => $user->name,
-                'role'  => $role->name
-            ];
-
-            // Mail::to($request->email)->send(new RegistrationMail($email_data));
 
             DB::commit();
 
@@ -158,9 +149,9 @@ public function store(StoreUserRequest $request)
     public function changeState(Request $request , User $user)
     {
         if($user->enabled)
-            $user->update(['enabled' => false]);
+            $user->update(['status' => false]);
         else
-            $user->update(['enabled' => true]);
+            $user->update(['status' => true]);
 
         return redirect()->back()
             ->with(['success' => "Le statut de l'utilisateur a été modifié avec succès"]);

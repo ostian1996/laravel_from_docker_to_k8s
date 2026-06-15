@@ -56,8 +56,7 @@ class RoleController extends Controller
      */
     public function store(StoreRoleRequest $request)
     {
-        $data               = $request->validated();
-
+        $data = $request->validated();
         try {
 
             DB::beginTransaction();
@@ -130,14 +129,6 @@ public function update(UpdateRoleRequest $request, Role $role)
 
             // Update cache
             Artisan::call('permission:cache-reset');
-
-            // Remplacez l'URL par l'URL réelle de votre application
-            $url = config('app.aforscore_api') .'reset/permissions'; 
-
-            $response = Http::put($url);
-
-            if(!$response->successful())
-                return redirect()->back()->with(['error' => 'Une erreur est survenue lors de la synchronisation. Veuillez réessayer.']);
 
             DB::commit();
             return redirect()->route('roles.index')

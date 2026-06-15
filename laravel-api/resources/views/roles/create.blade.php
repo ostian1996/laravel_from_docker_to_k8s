@@ -10,11 +10,20 @@
   <div class="col-md-6 grid-margin stretch-card mx-auto">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">Rôle</h4>
-        <p class="card-description">
-          Ajouter un nouveau rôle
-        </p>
+        <div class="d-flex justify-content-between align-items-start mb-4 flex-wrap gap-2">
+          <div>
+            <h4 class="card-title mb-1">Rôle</h4>
+            <p class="card-description text-muted mb-0">
+              Ajouter un nouveau rôle
+            </p>
+          </div>
+
+          <a href="{{ route('roles.index') }}" class="btn btn-outline-secondary btn-sm">
+            ← Retour
+          </a>
+        </div>
         <form class="forms-sample" method="POST" action="{{ route('roles.store') }}">
+          @csrf
           <div class="form-group row">
             <label for="name" class="col-sm-3 col-form-label">Libellé <span class="text-danger">*</span></label>
             <div class="col-sm-9">

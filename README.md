@@ -16,6 +16,18 @@ docker compose version
 git --version
 ```
 
+## Prérequis supplémentaires — Hosts locaux
+
+Ajoutez les entrées suivantes dans votre fichier `/etc/hosts` :
+
+**Linux / Mac :** `/etc/hosts`
+**Windows :** `C:\Windows\System32\drivers\etc\hosts`
+
+```text
+127.0.0.1 admin.local
+127.0.0.1 api.local
+```
+
 ---
 
 ## 1. Cloner le projet
@@ -23,7 +35,7 @@ git --version
 Clonez le dépôt GitHub puis placez-vous à la racine du projet :
 
 ```bash
-git clone git@github.com:user/repo.git
+git clone git@github.com:ostian1996/laravel_from_docker_to_k8s.git
 cd From_docker_to_k8s
 ```
 
@@ -52,9 +64,11 @@ cp laravel-api/.env.example laravel-api/.env
 Ouvrez le fichier `.env` situé à la racine du projet et renseignez les variables suivantes :
 
 ```env
-DB_DATABASE=laravel_docker_k8s
-DB_USERNAME=db_manager
-DB_PASSWORD=your_password
+DB_DATABASE=db_name
+DB_USERNAME=db_user
+DB_PASSWORD=db_password
+APP_KEY=
+COMPOSE_PROJECT_NAME=
 ```
 
 ### Configuration Laravel
@@ -73,9 +87,9 @@ APP_NAME="From Docker To K8s"
 DB_CONNECTION=pgsql
 DB_HOST=postgres
 DB_PORT=5432
-DB_DATABASE=laravel_docker_k8s
-DB_USERNAME=db_manager
-DB_PASSWORD=your_password
+DB_DATABASE=db_name
+DB_USERNAME=db_user
+DB_PASSWORD=db_password
 
 CACHE_STORE=redis
 QUEUE_CONNECTION=redis
@@ -93,11 +107,13 @@ Laravel nécessite une clé d'application unique pour le chiffrement des session
 Exécutez la commande suivante :
 
 ```bash
-docker run --rm \
-  -v $(pwd)/laravel-api:/app \
-  -w /app \
-  composer:2 \
-  php artisan key:generate --show
+# Après que les conteneurs sont démarrés
+docker compose -f docker-compose.dev.yml exec -u www-data laravel php artisan key:generate
+
+# Ou Générer une clé base64 de 32 bytes si les containers ne sont pas encore démarrés
+php -r "echo 'base64:' . base64_encode(random_bytes(32)) . PHP_EOL;"
+# Ou avec openssl
+echo "base64:$(openssl rand -base64 32)"
 ```
 
 Exemple de résultat :
@@ -153,7 +169,7 @@ Tous les services doivent être dans l'état `Up`.
 Installez les dépendances PHP :
 
 ```bash
-docker compose -f docker-compose.dev.yml exec laravel composer install
+docker compose -f docker-compose.dev.yml exec -u www-data laravel composer install
 ```
 
 ---
@@ -163,13 +179,13 @@ docker compose -f docker-compose.dev.yml exec laravel composer install
 Initialisez la base de données :
 
 ```bash
-docker compose -f docker-compose.dev.yml exec laravel php artisan migrate
+docker compose -f docker-compose.dev.yml exec -u www-data laravel php artisan migrate
 ```
 
 Pour recharger complètement la base :
 
 ```bash
-docker compose -f docker-compose.dev.yml exec laravel php artisan migrate:fresh
+docker compose -f docker-compose.dev.yml exec -u www-data laravel php artisan migrate:fresh
 ```
 
 ---
@@ -354,9 +370,6 @@ Il stocke :
 * Utilisateurs
 * Rôles
 * Permissions
-* Campagnes
-* Influenceurs
-* KPI
 * Paiements
 * Paramètres applicatifs
 
@@ -449,7 +462,6 @@ Exemples :
 /dashboard
 /users
 /roles
-/settings
 ```
 
 ---
@@ -487,9 +499,8 @@ Exemples :
 
 ```text
 /api/login
-/api/users
-/api/roles
-/api/campaigns
+/api/user
+/api/me
 ```
 
 ---
@@ -546,7 +557,7 @@ Caractéristiques :
 Fichier :
 
 ```text
-docker-compose.yml
+docker-compose.prod.yml
 ```
 
 Caractéristiques :

@@ -3,6 +3,7 @@ services:
     build:
       context: ./laravel-api
       dockerfile: docker/Dockerfile.dev
+    user: "1000:1000" 
     container_name: laravel
     restart: unless-stopped
     volumes:

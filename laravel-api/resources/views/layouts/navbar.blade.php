@@ -4,8 +4,8 @@
         <span class="mdi mdi-menu"></span>
       </button>
       <div class="navbar-brand-wrapper">
-        <a class="navbar-brand brand-logo" href="index.html"><img src="images/logo.svg" alt="logo"/></a>
-        <a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/logo-mini.svg" alt="logo"/></a>
+        <a class="navbar-brand brand-logo" href="index.html"><img src="{{ asset('images/logo.svg') }}" alt="logo"/></a>
+        <a class="navbar-brand brand-logo-mini" href="index.html"><img src="{{ asset('images/logo-mini.svg') }}" alt="logo"/></a>
       </div>
       <h4 class="font-weight-bold mb-0 d-none d-md-block mt-1">Bon retour parmi nous, {{ Auth::user()->name }}</h4>
       <ul class="navbar-nav navbar-nav-right">
@@ -21,7 +21,7 @@
             <p class="mb-0 font-weight-normal float-left dropdown-header">Messages</p>
             <a class="dropdown-item preview-item">
               <div class="preview-thumbnail">
-                  <img src="images/faces/face4.jpg" alt="image" class="profile-pic">
+                  <img src="{{ asset('images/faces/face4.jpg') }}" alt="image" class="profile-pic">
               </div>
               <div class="preview-item-content flex-grow">
                 <h6 class="preview-subject ellipsis font-weight-normal">David Grey
